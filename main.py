@@ -12,7 +12,7 @@ class Mainloop:
     def __init__(
             self, 
             __screen_size: tuple[int, int] = (1000, 600), 
-            target_fps: Optional[Union[int, float]] = None, 
+            target_fps: Union[int, float] = 144, 
             background_color: Union[str, tuple[int, int, int]] = "#303030"
     ) -> None:
         self.__display = pygame.display.set_mode(__screen_size)
@@ -31,9 +31,7 @@ class Mainloop:
     def __update_display(self) -> None:
         self.__display.fill(self.background_color)
         pygame.display.update()
-        
-        if self.target_fps is not None:
-            self.__clock.tick(float(self.target_fps))
+        self.__clock.tick(float(self.target_fps))
 
     def __update_events(self) -> None:
         for event in pygame.event.get():
@@ -43,8 +41,9 @@ class Mainloop:
     def mainloop(self) -> None:
         while self.__is_working:
 
-            self.__update_display()
             self.__update_events()
+            self.__update_display()
+            print(self.__clock.get_fps())
 
 
 if __name__ == "__main__":
